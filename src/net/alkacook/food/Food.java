@@ -3,22 +3,27 @@ package net.alkacook.food;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.List;
+
 public class Food {
 
     private String name;
+    private List<String> lore;
     private String iconName;
     private boolean glow;
-    private ItemStack[] ingredient;
+    private List<ItemStack> ingredient;
     private int foodLevel;
-    private PotionEffect[] potionList;
+    private List<PotionEffect> potionList;
 
     public Food(String name,
+                List<String> lore,
                 String iconName,
                 boolean glow,
-                ItemStack[] ingredient,
+                List<ItemStack> ingredient,
                 int foodLevel,
-                PotionEffect[] potionList) {
+                List<PotionEffect> potionList) {
         this.name = name;
+        this.lore = lore;
         this.iconName = iconName;
         this.glow = glow;
         this.ingredient = ingredient;
@@ -30,6 +35,10 @@ public class Food {
         return name;
     }
 
+    public List<String> getLore() {
+        return lore;
+    }
+
     public String getIconName() {
         return iconName;
     }
@@ -38,7 +47,7 @@ public class Food {
         return glow;
     }
 
-    public ItemStack[] getIngredient() {
+    public List<ItemStack> getIngredient() {
         return ingredient;
     }
 
@@ -46,7 +55,7 @@ public class Food {
         return foodLevel;
     }
 
-    public PotionEffect[] getPotionList() {
+    public List<PotionEffect> getPotionList() {
         return potionList;
     }
 

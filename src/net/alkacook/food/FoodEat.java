@@ -9,6 +9,8 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.List;
+
 public class FoodEat implements Listener {
 
     @EventHandler
@@ -22,7 +24,8 @@ public class FoodEat implements Listener {
         } else {//If it's registered
             int foodLevel = player.getFoodLevel() + food.getFoodLevel();
             player.setFoodLevel(foodLevel);//Set the player's food level
-            PotionEffect[] potionEffects = food.getPotionList();
+            List<PotionEffect> potionEffects;
+            potionEffects = food.getPotionList();
             for (PotionEffect effect : potionEffects) {
                 player.addPotionEffect(effect);//Add the effects to player
             }
