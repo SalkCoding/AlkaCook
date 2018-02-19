@@ -1,0 +1,11 @@
+name: AlkaCook
+version: 1.0.0-SNAPSHOT
+main: net.alkacook.main.Main
+description: Cook with special materials for make a amazing food
+author: Salk_Coding
+
+commands:
+  cook:
+    description: open the GUI that you can cook
+  alkacook:
+    description: It's command that reload the config files

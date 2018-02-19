@@ -8,8 +8,8 @@ public class Constants {
     }
 
     public static String Console = "[AlkaCook] ";
-    public static String Prefix = ChatColor.GOLD + "[" + ChatColor.GRAY + "!" + ChatColor.GOLD + "] " + ChatColor.RESET;
-    public static String InvName = ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "요리" + ChatColor.GOLD
-            + "]";
+    public static String Prefix = ChatColor.GRAY + "[" + ChatColor.GOLD + "!" + ChatColor.GRAY + "] " + ChatColor.RESET;
+    public static String InvName = ChatColor.translateAlternateColorCodes('&', "&7-= &cA&6l&ek&aa&dCook &7=-");
+    public static int GUIHeight = 5;
 
 }
