@@ -2,9 +2,15 @@ package net.alkacook.main;
 
 import net.alkacook.config.StatisticsLoader;
 import net.alkacook.config.StatisticsWriter;
+import net.alkacook.cook.CookGUI;
 import net.alkacook.cook.CookGUIClick;
+import net.alkacook.cook.event.IceStick;
+import net.alkacook.cook.event.NotAllowCraft;
+import net.alkacook.cook.event.PlayerQuit;
 import net.alkacook.food.FoodEat;
 import net.alkacook.food.FoodListManager;
+import net.alkacook.main.command.Command;
+import net.alkacook.main.command.OtherCommand;
 import net.alkacook.rank.FoodStatistics;
 import net.alkacook.untill.Constants;
 import net.alkacook.untill.Untill;
@@ -35,8 +41,12 @@ public class Main extends JavaPlugin {
             e.printStackTrace();
         }
         getCommand("cook").setExecutor(new Command());
-        getCommand("alkacook").setExecutor(new ReloadCommand());
+        getCommand("alkacook").setExecutor(new OtherCommand());
         PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new IceStick(), this);
+        pluginManager.registerEvents(new NotAllowCraft(), this);
+        pluginManager.registerEvents(new PlayerQuit(), this);
+        pluginManager.registerEvents(new CookGUI(), this);
         pluginManager.registerEvents(new CookGUIClick(), this);
         pluginManager.registerEvents(new FoodEat(), this);
         Bukkit.getLogger().info(Constants.Console + "Plugin is now enable");
@@ -49,6 +59,7 @@ public class Main extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Untill.safeDisable();
         Bukkit.getLogger().info(Constants.Console + "Plugin is now disable");
     }
 

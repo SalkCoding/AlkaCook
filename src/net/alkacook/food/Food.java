@@ -4,6 +4,7 @@ import net.alkacook.untill.Untill;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.List;
@@ -12,9 +13,8 @@ public class Food {
 
     private String name;
     private List<String> lore;
-    private String skinId;
-    private String skinValue;
     private List<ItemStack> ingredient;
+    private List<Material> overlapType;
     private int foodLevel;
     private List<PotionEffect> potionList;
     private double exp;
@@ -23,9 +23,10 @@ public class Food {
 
     public Food(String name,
                 List<String> lore,
-                String id,
+                String skinId,
                 String skinValue,
                 List<ItemStack> ingredient,
+                List<Material> overlapType,
                 int foodLevel,
                 List<PotionEffect> potionList,
                 double exp,
@@ -33,9 +34,8 @@ public class Food {
                 Material type) {
         this.name = name;
         this.lore = lore;
-        this.skinId = id;
-        this.skinValue = skinValue;
         this.ingredient = ingredient;
+        this.overlapType = overlapType;
         this.foodLevel = foodLevel;
         this.potionList = potionList;
         this.exp = exp;
@@ -63,6 +63,10 @@ public class Food {
 
     public List<ItemStack> getIngredient() {
         return ingredient;
+    }
+
+    public List<Material> getOverlapType() {
+        return overlapType;
     }
 
     public int getFoodLevel() {

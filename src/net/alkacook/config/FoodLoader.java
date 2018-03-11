@@ -10,6 +10,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
+import org.jline.utils.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class FoodLoader {
                 Material type = Material.valueOf(config.getString("Type"));
 
                 ArrayList<ItemStack> ingredient = new ArrayList<>();
+                ArrayList<Material> overlapType = new ArrayList<>();
                 for (String root : config.getKeys(false)) {
                     ConfigurationSection rootSection = config.getConfigurationSection(root);
                     if (rootSection != null) {
@@ -55,7 +57,14 @@ public class FoodLoader {
                                 String ingredientName = childSection.getString("DisplayName");
                                 List<String> ingredientLore = childSection.getStringList("Lore");
                                 String strType = childSection.getString("Type");
-                                Material ingredientType = Material.valueOf(strType);
+                                Material ingredientType;
+                                if (strType.contains(" ")) {
+                                    for (String str : strType.split(" ")) {
+                                        overlapType.add(Material.valueOf(str));
+                                    }
+                                    ingredientType = overlapType.get(0);
+                                } else
+                                    ingredientType = Material.valueOf(strType);
                                 int ingredientAmount = childSection.getInt("Amount");
                                 String specialType = childSection.getString("SpecialType");
                                 ItemStack result;
@@ -73,13 +82,13 @@ public class FoodLoader {
                         }
                     }
                 }
-                Food customFood = new Food(name, lore, skinId,skinValue, ingredient, foodLevel, potionEffectList, exp, isFood, type);
+                Food customFood = new Food(name, lore, skinId, skinValue, ingredient, overlapType, foodLevel, potionEffectList, exp, isFood, type);
                 list.put(name, customFood);
+                list.put(file.getName().split(".yml")[0], customFood);//For administration command
                 Bukkit.getLogger().info(Constants.Console + file.getName() + " is loaded!");
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                Bukkit.getLogger().warning(Constants.Console +"Error is occurred in "+ file.getName());
+                Bukkit.getLogger().warning(Constants.Console + "Error is occurred in " + file.getName());
             }
         }
 

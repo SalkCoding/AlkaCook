@@ -11,6 +11,16 @@ import java.util.Map;
 
 public class StatisticsWriter {
 
+    public static void removeStatistics(){
+        Path path = Main.getInstance().getDataFolder().toPath().resolve("Statistics");
+        if (Files.notExists(path))
+            return;
+        File file = new File(path.toFile(), "Statistics.yml");
+        if(!file.exists())
+            return;
+        file.delete();
+    }
+
     public static void saveStatistics(HashMap<String, Integer> statistics) throws IOException {
         Path path = Main.getInstance().getDataFolder().toPath().resolve("Statistics");
         if (Files.notExists(path)) {

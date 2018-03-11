@@ -1,17 +1,18 @@
 package net.alkacook.rank;
 
+
 import java.util.*;
 
 public class FoodStatistics {
 
     private static HashMap<String, Integer> statistics = new HashMap<>();
 
-    public static void addStatistics(String name) {
+    public static void addStatistics(String name,int add) {
         if (!statistics.containsKey(name))
-            statistics.put(name, 0);
+            statistics.put(name, add);
         else {
             int count = statistics.get(name);
-            statistics.replace(name, count + 1);
+            statistics.replace(name, count + add);
         }
     }
 
