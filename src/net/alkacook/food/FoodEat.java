@@ -33,22 +33,37 @@ public class FoodEat implements Listener {
         Food food = FoodListManager.getCustomFood(item.getItemMeta().getDisplayName());
         Player player = event.getPlayer();
         if (food == null) {//If food is Not registered
-            if (item.getType() == Material.MILK_BUCKET)
-                return;
             event.setCancelled(true);//Cancel the event
             player.sendMessage(Constants.Prefix + ChatColor.RED + "해당 음식은 섭취할 수 없습니다.");
         }
     }
 
     @EventHandler
-    public void onCakeEat(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+    public void onCakeOrMilkEvent(PlayerInteractEvent event) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
+            ItemStack item = event.getItem();
+            if (item == null) return;
+            if (item.getType() == Material.MILK_BUCKET) {
+                for (PotionEffect potionEffect : event.getPlayer().getActivePotionEffects()) {
+                    event.getPlayer().removePotionEffect(potionEffect.getType());
+                }
+                int amount = item.getAmount() - 1;
+                if (amount <= 0) {
+                    item.setType(Material.BUCKET);
+                } else {
+                    item.setAmount(amount);
+                    event.getPlayer().getInventory().addItem(new ItemStack(Material.BUCKET));
+                }
+                return;
+            }
             Block block = event.getClickedBlock();
+            if (block == null) return;
             if (block.getType() == Material.CAKE_BLOCK) {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage(Constants.Prefix + ChatColor.RED + "해당 음식은 섭취할 수 없습니다.");
             }
         }
+
     }
 
     @EventHandler
