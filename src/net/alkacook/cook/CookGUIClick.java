@@ -53,7 +53,7 @@ public class CookGUIClick implements Listener {
     }
 
     @EventHandler
-    public void onCustomFoodClick(InventoryClickEvent event) {
+    public void onCustomFoodCraft(InventoryClickEvent event) {
         Inventory inv = event.getClickedInventory();
         if (inv != null) {//If player click a wrong gui,return pass the event
             String invName = inv.getName();
@@ -70,9 +70,9 @@ public class CookGUIClick implements Listener {
                             ItemStack item = inv.getItem((i * 9) + j);
                             if (item != null) {
                                 for (ItemStack ele : ingredient) {
-                                    if (ele.getType() == item.getType() && !alreadyCheck.contains(item.getType()) || targetFood.getOverlapType().contains(item.getType())) {
+                                    if ((ele.getType() == item.getType() && !alreadyCheck.contains(item.getType())) || targetFood.getOverlapType().contains(item.getType())) {
                                         alreadyCheck.add(item.getType());
-                                        int amount = 0;
+                                        int amount;
                                         if (!event.isShiftClick())
                                             amount = item.getAmount() - ele.getAmount();
                                         else
@@ -81,19 +81,20 @@ public class CookGUIClick implements Listener {
                                             inv.removeItem(item);
                                         else
                                             item.setAmount(amount);
-                                        if (ele.getType() == Material.MILK_BUCKET) {
-                                            Player player = (Player) event.getWhoClicked();
-                                            if (!event.isShiftClick())
-                                                player.getInventory().addItem(new ItemStack(Material.BUCKET, ele.getAmount()));
-                                            else
-                                                player.getInventory().addItem(new ItemStack(Material.BUCKET, (maxAmount.get(name) * ele.getAmount())));
-                                        }
-                                        else if(ele.getType() == Material.POTION){
-                                            Player player = (Player) event.getWhoClicked();
-                                            if (!event.isShiftClick())
-                                                player.getInventory().addItem(new ItemStack(Material.GLASS_BOTTLE, 1));
-                                            else
-                                                player.getInventory().addItem(new ItemStack(Material.GLASS_BOTTLE, maxAmount.get(name)));
+                                        Player player = (Player) event.getWhoClicked();
+                                        switch (item.getType()) {
+                                            case MILK_BUCKET:
+                                                if (!event.isShiftClick())
+                                                    player.getInventory().addItem(new ItemStack(Material.BUCKET, ele.getAmount()));
+                                                else
+                                                    player.getInventory().addItem(new ItemStack(Material.BUCKET, (maxAmount.get(name) * ele.getAmount())));
+                                                break;
+                                            case POTION:
+                                                if (!event.isShiftClick())
+                                                    player.getInventory().addItem(new ItemStack(Material.GLASS_BOTTLE, ele.getAmount()));
+                                                else
+                                                    player.getInventory().addItem(new ItemStack(Material.GLASS_BOTTLE, (maxAmount.get(name) * ele.getAmount())));
+                                                break;
                                         }
                                     }
                                 }

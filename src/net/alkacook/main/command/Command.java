@@ -32,7 +32,7 @@ public class Command implements CommandExecutor {
                     return true;
                 }
                 Player player = (Player) commandSender;
-                Untill.getGroupItemAtOnce(player.getInventory().getItemInMainHand().getType(), player);
+                Untill.getGroupItemAtOnce(player.getInventory().getItemInMainHand(), player);
                 return true;
             } else if (args[0].equalsIgnoreCase("example")) {
                 if (!commandSender.isOp()) {

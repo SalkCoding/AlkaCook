@@ -40,6 +40,9 @@ public class Untill {
     }
 
     public static Food CookIngredient(List<ItemStack> ingredients) {
+        /*for(ItemStack item:ingredients){
+
+        }*/
         for (Map.Entry<String, Food> ele : FoodListManager.getFoodList().entrySet()) {
             Food food = ele.getValue();
             List<ItemStack> foodIngredient = food.getIngredient();
@@ -90,9 +93,9 @@ public class Untill {
         return CraftItemStack.asCraftMirror(head);
     }
 
-    public static void getGroupItemAtOnce(Material type, Player player) {
-        if (!Constants.AllowItemList.contains(type)) {
-            if(type == Material.AIR)
+    public static void getGroupItemAtOnce(ItemStack item, Player player) {
+        if (!Constants.AllowItemList.contains(item.getType())) {
+            if(item.getType() == Material.AIR)
                 player.sendMessage(Constants.Prefix + ChatColor.RED + "아이템을 손에들고 있어야합니다.");
             else
                 player.sendMessage(Constants.Prefix + ChatColor.RED + "해당 아이템은 명령어로 모으기가 금지되어 있습니다.");
@@ -100,15 +103,16 @@ public class Untill {
         }
         int amount = 0;
         Inventory inv = player.getInventory();
-        for (ItemStack item : inv.getContents()) {
-            if (item == null)
+        for (ItemStack invItem : inv.getContents()) {
+            if (invItem == null)
                 continue;
-            if (Constants.AllowItemList.contains(item.getType()) && item.getType() == type) {
-                inv.remove(item);
-                amount += item.getAmount();
+            if (Constants.AllowItemList.contains(invItem.getType()) && invItem.getType() == item.getType()) {
+                inv.remove(invItem);
+                amount += invItem.getAmount();
             }
         }
-        ItemStack result = new ItemStack(type, amount);
+        ItemStack result = item.clone();
+        result.setAmount(amount);
         player.getInventory().addItem(result);
         player.sendMessage(Constants.Prefix + ChatColor.GREEN + "아이템이 한곳으로 모아졌습니다.");
     }

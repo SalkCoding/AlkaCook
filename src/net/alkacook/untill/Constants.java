@@ -27,6 +27,7 @@ public class Constants {
         NotAllowCraftList.add(Material.GOLDEN_CARROT);
         NotAllowCraftList.add(Material.PUMPKIN_PIE);
         NotAllowCraftList.add(Material.RABBIT_STEW);
+        NotAllowCraftList.add(Material.SUGAR);
 
         //AllowItemList.add(Material.LAVA_BUCKET);
         //AllowItemList.add(Material.WATER_BUCKET);

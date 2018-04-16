@@ -7,10 +7,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -38,12 +41,29 @@ public class FoodEat implements Listener {
         }
     }
 
-    @EventHandler
+    HashSet<Player> milkEvent = new HashSet<>();
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onMilkToEntity(PlayerInteractEntityEvent event){
+        ItemStack mainItem = event.getPlayer().getInventory().getItemInMainHand();
+        ItemStack offItem = event.getPlayer().getInventory().getItemInOffHand();
+        if(mainItem.getType() == Material.MILK_BUCKET || offItem.getType() == Material.MILK_BUCKET){
+            milkEvent.add(event.getPlayer());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onCakeOrMilkEvent(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
             ItemStack item = event.getItem();
             if (item == null) return;
             if (item.getType() == Material.MILK_BUCKET) {
+                Player player = event.getPlayer();
+                if(milkEvent.contains(player)){
+                    milkEvent.remove(player);
+                    return;
+                }
+                event.setCancelled(true);
                 for (PotionEffect potionEffect : event.getPlayer().getActivePotionEffects()) {
                     event.getPlayer().removePotionEffect(potionEffect.getType());
                 }
@@ -54,6 +74,7 @@ public class FoodEat implements Listener {
                     item.setAmount(amount);
                     event.getPlayer().getInventory().addItem(new ItemStack(Material.BUCKET));
                 }
+                player.playSound(player.getLocation(),Sound.ENTITY_GENERIC_DRINK,50,50);
                 return;
             }
             Block block = event.getClickedBlock();
@@ -75,6 +96,13 @@ public class FoodEat implements Listener {
             if (food != null) {
                 event.setCancelled(true);
                 Player player = event.getPlayer();
+                List<String> worldNames = Main.getLimitWorldNames();
+                if(worldNames != null || worldNames.size() != 0) {
+                    if (worldNames.contains(player.getWorld().getName())) {
+                        player.sendMessage(Constants.Prefix + ChatColor.RED + "현재 월드에서는 음식을 섭취할 수 없습니다.");
+                        return;
+                    }
+                }
                 if (!food.getPotionList().contains(null)) {
                     if (eatTimer.contains(player) || eatMotion.contains(player))
                         return;
