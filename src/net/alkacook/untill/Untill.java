@@ -56,7 +56,7 @@ public class Untill {
                             }
                         }
                         //if (!Constants.NotCheckMaterialList.contains(item.getType()))
-                        if(item.getType() != Material.SKULL_ITEM)
+                        if (item.getType() != Material.SKULL_ITEM)
                             alreadyCheck.add(item.getType());
                         count++;
                     }
@@ -96,7 +96,7 @@ public class Untill {
         for (ItemStack invItem : inv.getContents()) {
             if (invItem == null)
                 continue;
-            if (Constants.AllowItemList.contains(invItem.getType()) && invItem.getType() == item.getType()) {
+            if (Constants.AllowItemList.contains(invItem.getType()) && invItem.isSimilar(item)) {
                 inv.remove(invItem);
                 amount += invItem.getAmount();
             }

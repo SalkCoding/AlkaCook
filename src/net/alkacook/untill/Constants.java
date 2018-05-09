@@ -37,7 +37,7 @@ public class Constants {
         AllowItemList.add(Material.RABBIT_STEW);
         AllowItemList.add(Material.MUSHROOM_SOUP);
         AllowItemList.add(Material.BEETROOT_SOUP);
-        //AllowItemList.add(Material.CAKE);
+        AllowItemList.add(Material.CAKE);
         //AllowItemList.add(Material.TOTEM);
         AllowItemList.add(Material.POTION);
 
