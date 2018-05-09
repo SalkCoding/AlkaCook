@@ -45,6 +45,8 @@ public class FoodWriter {
             config.set("Ingredient." + name + ".Amount", ingredientConfig.getAmount());
             config.set("Ingredient." + name + ".SpecialType", ingredientConfig.getSpecialType());
         }
+        config.set("SpecialType",0);
+        config.set("RemoveHarmful", true);
         config.set("Hunger", 8);
         config.set("PotionEffect", potionEffects);
         config.set("Exp", 0);

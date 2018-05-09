@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
@@ -56,17 +57,11 @@ public class CookGUI implements Listener {
     @EventHandler
     public void onCookingEnd(InventoryCloseEvent event) {
         if (event.getInventory().getName().equals(Constants.InvName)) {
-            Inventory inv = event.getInventory();
             if (!(event.getPlayer() instanceof Player))
                 return;
             Player player = (Player) event.getPlayer();
-            for (int i = 1; i < (Constants.GUIHeight - 1); i++) {
-                for (int j = 1; j < 8; j++) {
-                    ItemStack item = inv.getItem((i * 9) + j);
-                    if (item == null) continue;
-                    player.getInventory().addItem(item);
-                }
-            }
+            InventoryView inv = player.getOpenInventory();
+            Untill.copyItemFromInventory(player, inv);
             BukkitTask task = cookingList.get(event.getPlayer().getEntityId());
             if (task != null)
                 task.cancel();

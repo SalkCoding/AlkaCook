@@ -42,6 +42,8 @@ public class FoodLoader {
                 double exp = config.getDouble("Exp");
                 boolean isFood = config.getBoolean("IsFood");
                 Material type = Material.valueOf(config.getString("Type"));
+                boolean removeHarmful = config.getBoolean("RemoveHarmful");
+                int sType = config.getInt("SpecialType");
 
                 ArrayList<ItemStack> ingredient = new ArrayList<>();
                 ArrayList<Material> overlapType = new ArrayList<>();
@@ -82,7 +84,7 @@ public class FoodLoader {
                         }
                     }
                 }
-                Food customFood = new Food(name, lore, skinId, skinValue, ingredient, overlapType, foodLevel, potionEffectList, exp, isFood, type);
+                Food customFood = new Food(name, lore, skinId, skinValue, ingredient, overlapType, foodLevel, potionEffectList, exp, isFood, type, sType, removeHarmful);
                 list.put(name, customFood);
                 list.put(file.getName().split(".yml")[0], customFood);//For administration command
                 Bukkit.getLogger().info(Constants.Console + file.getName() + " is loaded!");

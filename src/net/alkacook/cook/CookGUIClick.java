@@ -71,7 +71,8 @@ public class CookGUIClick implements Listener {
                             if (item != null) {
                                 for (ItemStack ele : ingredient) {
                                     if ((ele.getType() == item.getType() && !alreadyCheck.contains(item.getType())) || targetFood.getOverlapType().contains(item.getType())) {
-                                        alreadyCheck.add(item.getType());
+                                        if(item.getType() != Material.SKULL_ITEM)
+                                            alreadyCheck.add(item.getType());
                                         int amount;
                                         if (!event.isShiftClick())
                                             amount = item.getAmount() - ele.getAmount();
