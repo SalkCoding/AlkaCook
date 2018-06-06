@@ -7,7 +7,6 @@ import net.alkacook.cook.CookGUIClick;
 import net.alkacook.cook.event.IceStick;
 import net.alkacook.cook.event.NotAllowCraft;
 import net.alkacook.cook.event.PlayerQuit;
-import net.alkacook.cook.event.PreventBrew;
 import net.alkacook.food.FoodEat;
 import net.alkacook.food.FoodListManager;
 import net.alkacook.main.command.Command;
@@ -16,7 +15,6 @@ import net.alkacook.rank.FoodStatistics;
 import net.alkacook.untill.Constants;
 import net.alkacook.untill.Untill;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -45,9 +43,7 @@ public class Main extends JavaPlugin {
         instance = this;
         FoodListManager.loadFoodList();
         getConfig().options().copyDefaults(true);
-        for (String worldName : getConfig().getStringList("limitworld")) {
-            limitWorld.add(worldName);
-        }
+        limitWorld.addAll(getConfig().getStringList("limitworld"));
         saveConfig();
         try {
             StatisticsLoader.loadStatistics();

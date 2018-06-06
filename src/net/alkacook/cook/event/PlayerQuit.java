@@ -10,25 +10,21 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 
-public class PlayerQuit implements Listener{
+public class PlayerQuit implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         String name = event.getPlayer().getName();
-        HashMap<Integer,BukkitTask> cookingList = CookGUI.getCookingList();
-        HashMap<String,Integer> maxAmount = CookGUIClick.getMaxAmount();
+        HashMap<Integer, BukkitTask> cookingList = CookGUI.getCookingList();
+        HashMap<String, Integer> maxAmount = CookGUIClick.getMaxAmount();
         HashMap<String, Food> correctCook = CookGUIClick.getCorrectCook();
         if (cookingList.containsKey(event.getPlayer().getEntityId())) {
             int id = event.getPlayer().getEntityId();
             cookingList.get(id).cancel();
             cookingList.remove(id);
         }
-        if (maxAmount.containsKey(name)) {
-            maxAmount.remove(name);
-        }
-        if (correctCook.containsKey(name)) {
-            correctCook.remove(name);
-        }
+        maxAmount.remove(name);
+        correctCook.remove(name);
     }
 
 }

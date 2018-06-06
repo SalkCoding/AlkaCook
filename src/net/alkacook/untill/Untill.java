@@ -23,9 +23,10 @@ public class Untill {
 
     public static int getMaxCraftAmount(Food resultFood, List<ItemStack> ingredients) {
         int maxAmount = 100;
+        List<Material> overlapTypes = resultFood.getOverlapType();
         for (ItemStack resultIngredient : resultFood.getIngredient()) {
             for (ItemStack ingredient : ingredients) {
-                if (ingredient.getType() == resultIngredient.getType() || resultFood.getOverlapType().contains(ingredient.getType())) {
+                if (ingredient.getType() == resultIngredient.getType() || (overlapTypes.contains(ingredient.getType()) && overlapTypes.contains(resultIngredient.getType()))) {
                     int amount = ingredient.getAmount() / resultIngredient.getAmount();
                     maxAmount = Math.min(amount, maxAmount);
                 }
@@ -38,11 +39,13 @@ public class Untill {
         for (Map.Entry<String, Food> ele : FoodListManager.getFoodList().entrySet()) {
             Food food = ele.getValue();
             List<ItemStack> foodIngredient = food.getIngredient();
+            List<Material> overlapTypes = food.getOverlapType();
             ArrayList<Material> alreadyCheck = new ArrayList<>();
             int count = 0;
-            for (ItemStack ingredient : foodIngredient)
+            for (ItemStack ingredient : foodIngredient) {
+                loreError:
                 for (ItemStack item : ingredients) {//Check the ingredient to return a food
-                    if ((ingredient.getType() == item.getType() || food.getOverlapType().contains(item.getType())) && ingredient.getAmount() <= item.getAmount() && !alreadyCheck.contains(item.getType())) {
+                    if ((ingredient.getType() == item.getType() || overlapTypes.contains(item.getType())) && ingredient.getAmount() <= item.getAmount() && !alreadyCheck.contains(item.getType())) {
                         if (!item.getI18NDisplayName().equals(ingredient.getI18NDisplayName()))
                             continue;
                         List<String> itemLore = item.getItemMeta().getLore();
@@ -50,18 +53,21 @@ public class Untill {
                         if (itemLore != null) {
                             if (itemLore.size() != ingredientLore.size())
                                 continue;
-                            for (int i = 0; i < itemLore.size(); i++) {
-                                if (!itemLore.get(i).equals(ingredientLore.get(i)))
-                                    continue;
-                            }
+                            for (int i = 0; i < itemLore.size(); i++)
+                                if (!itemLore.get(i).equals(ingredientLore.get(i))) {
+                                    continue loreError;
+                                }
                         }
                         //if (!Constants.NotCheckMaterialList.contains(item.getType()))
+                        if (overlapTypes.contains(item.getType()))
+                            alreadyCheck.addAll(overlapTypes);
                         if (item.getType() != Material.SKULL_ITEM)
                             alreadyCheck.add(item.getType());
                         count++;
                     }
                 }
-            if (count == foodIngredient.size() && ingredients.size() == count) return food;
+                if (count == foodIngredient.size() && ingredients.size() == count) return food;
+            }
         }
         return null;//If the search fails on the list, returns null.
     }

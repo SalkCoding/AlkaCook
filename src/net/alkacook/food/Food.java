@@ -1,12 +1,14 @@
 package net.alkacook.food;
 
-import net.alkacook.untill.Untill;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.List;
+
+import static net.alkacook.untill.Untill.*;
 
 public class Food {
 
@@ -46,7 +48,7 @@ public class Food {
         ItemStack foodItem;
         ItemMeta foodItemMeta;
         if (type == Material.SKULL_ITEM) {
-            foodItem = Untill.getCustomSkull(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), skinId, skinValue);
+            foodItem = getCustomSkull(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), skinId, skinValue);
         } else
             foodItem = new ItemStack(type, 1);
         if (type != Material.SKULL_ITEM)

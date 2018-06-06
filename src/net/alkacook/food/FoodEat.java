@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -95,7 +94,7 @@ public class FoodEat implements Listener {
                 event.setCancelled(true);
                 Player player = event.getPlayer();
                 List<String> worldNames = Main.getLimitWorldNames();
-                if (worldNames != null || worldNames.size() != 0) {
+                if (worldNames != null) {
                     if (worldNames.contains(player.getWorld().getName())) {
                         player.sendMessage(Constants.Prefix + ChatColor.RED + "현재 월드에서는 음식을 섭취할 수 없습니다.");
                         return;
@@ -124,8 +123,8 @@ public class FoodEat implements Listener {
                     for (PotionEffectType effectType : Constants.HarmfulPotionEffect) {
                         player.removePotionEffect(effectType);
                     }
+                    player.setFireTicks(0);
                 }
-                player.setFireTicks(0);
                 for (PotionEffect effect : potionEffects) {
                     if (effect != null)
                         player.addPotionEffect(effect);//Add the effects to player

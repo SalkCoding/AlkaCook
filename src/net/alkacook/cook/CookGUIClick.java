@@ -1,22 +1,17 @@
 package net.alkacook.cook;
 
 import net.alkacook.food.Food;
-import net.alkacook.main.Main;
 import net.alkacook.rank.FoodStatistics;
 import net.alkacook.untill.Constants;
-import net.alkacook.untill.Untill;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,14 +59,15 @@ public class CookGUIClick implements Listener {
                     Food targetFood = correctCook.get(name);
                     if (targetFood == null) return;
                     List<ItemStack> ingredient = targetFood.getIngredient();
+                    List<Material> overlapTypes = targetFood.getOverlapType();
                     ArrayList<Material> alreadyCheck = new ArrayList<>();
                     for (int i = 1; i < (Constants.GUIHeight - 1); i++) {
                         for (int j = 1; j < 8; j++) {
                             ItemStack item = inv.getItem((i * 9) + j);
                             if (item != null) {
                                 for (ItemStack ele : ingredient) {
-                                    if ((ele.getType() == item.getType() && !alreadyCheck.contains(item.getType())) || targetFood.getOverlapType().contains(item.getType())) {
-                                        if(item.getType() != Material.SKULL_ITEM)
+                                    if ((ele.getType() == item.getType() && !alreadyCheck.contains(item.getType())) || (overlapTypes.contains(item.getType())) && overlapTypes.contains(ele.getType())) {
+                                        if (item.getType() != Material.SKULL_ITEM)
                                             alreadyCheck.add(item.getType());
                                         int amount;
                                         if (!event.isShiftClick())

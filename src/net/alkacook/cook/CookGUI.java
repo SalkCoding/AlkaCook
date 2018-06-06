@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 public class CookGUI implements Listener {
 
-    protected static HashMap<Integer, BukkitTask> cookingList = new HashMap<>();
+    private static HashMap<Integer, BukkitTask> cookingList = new HashMap<>();
 
     public static HashMap<Integer, BukkitTask> getCookingList() {
         return cookingList;
@@ -75,10 +75,15 @@ class CraftIngredients implements Runnable {
 
     private String name;
     private Inventory inv;
+    private ItemStack nullButton;
 
-    public CraftIngredients(String name, Inventory inv) {
+    CraftIngredients(String name, Inventory inv) {
         this.name = name;
         this.inv = inv;
+        nullButton = new ItemStack(Material.FURNACE);
+        ItemMeta nullButtonMeta = nullButton.getItemMeta();
+        nullButtonMeta.setDisplayName("");
+        nullButton.setItemMeta(nullButtonMeta);
     }
 
 
@@ -100,10 +105,6 @@ class CraftIngredients implements Runnable {
                 CookGUIClick.correctCook.put(name, resultFood);
                 CookGUIClick.maxAmount.put(name, amount);
             } else {
-                ItemStack nullButton = new ItemStack(Material.FURNACE);
-                ItemMeta nullButtonMeta = nullButton.getItemMeta();
-                nullButtonMeta.setDisplayName("");
-                nullButton.setItemMeta(nullButtonMeta);
                 inv.setItem(4, nullButton);
                 CookGUIClick.correctCook.remove(name);
                 CookGUIClick.maxAmount.remove(name);

@@ -10,7 +10,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
-import org.jline.utils.Log;
 
 import java.io.File;
 import java.io.IOException;

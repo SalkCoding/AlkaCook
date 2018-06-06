@@ -17,7 +17,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
 
@@ -114,7 +113,7 @@ public class Command implements CommandExecutor {
                 return true;
             }
         } else {//gui command
-            Player player = null;
+            Player player;
             if (!(commandSender instanceof Player)) {
                 commandSender.sendMessage(Constants.Console + ChatColor.RED + "This command only can be used by player!");
                 return true;
