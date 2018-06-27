@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,12 +100,21 @@ public class Untill {
         }
         int amount = 0;
         Inventory inv = player.getInventory();
-        for (ItemStack invItem : inv.getContents()) {
+        for (ItemStack invItem : inv.getStorageContents()) {
             if (invItem == null)
                 continue;
-            if (Constants.AllowItemList.contains(invItem.getType()) && invItem.isSimilar(item)) {
+            if (invItem.isSimilar(item)) {
                 inv.remove(invItem);
                 amount += invItem.getAmount();
+            }
+        }
+        PlayerInventory playerInv = null;
+        if (inv instanceof PlayerInventory)
+            playerInv = (PlayerInventory) inv;
+        if (playerInv != null) {
+            if(playerInv.getItemInOffHand().isSimilar(item)) {
+                playerInv.setItemInOffHand(null);
+                amount += 1;
             }
         }
         ItemStack result = item.clone();
